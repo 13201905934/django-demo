@@ -1,0 +1,39 @@
+<!--继承base模板-->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>文章列表</h1>
+<h2>作者：{{author}} 文章数量：{{number}}</h2>
+<ul>
+    <li>{{article_list.0}}</li>
+    <li>{{article_list.1|truncatechars:10}}</li>
+    <li>{{article_list.2}}</li>
+</ul>
+<!--此处的upper是过滤器-->
+<p>{{info.name|upper}} 年龄 {{info.age}} 性别 {{gender|default:'未知'}}</p>
+<p>喜欢的编程语言：{{info.program_language|random}}</p>
+
+<!--循环标签-->
+{% for article in article_list %}
+<ul>
+    <!--隔行换色 用cycle函数循环 row1 row2-->
+    <li class="{% cycle 'row1' 'row2' %}">{{article}}
+        <!--第几次循环-->
+        {{forloop.counter}}
+        <!--注意 == 1 一定要有空格 不然会报错-->
+        {% if forloop.counter == 1 %}
+        置顶
+        {% endif %}
+    </li>
+</ul>
+{% empty %}
+<p></p>
+{% endfor %}
+<!--遍历字典-->
+{% for key,value in info.items %}
+<p>{{key}}:{{value}}</p>
+{% endfor %}
+
+<!--模板的引入-->
+{% include 'page.html' %}
+{% endblock %}
